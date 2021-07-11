@@ -1,244 +1,122 @@
-"__     ___
-"\ \   / (_)_ __ ___  _ __ ___
-" \ \ / /| | '_ ` _ \| '__/ __|
-"  \ V / | | | | | | | | | (__
-"   \_/  |_|_| |_| |_|_|  \___|
-" _             ____                           ____  _           _
-"| |__  _   _  | __ ) _ __ _   _ _ __   ___   |  _ \(_) ___ ___ | | ___
-"| '_ \| | | | |  _ \| '__| | | | '_ \ / _ \  | |_) | |/ __/ _ \| |/ _ \
-"| |_) | |_| | | |_) | |  | |_| | | | | (_) | |  __/| | (_| (_) | | (_) |
-"|_.__/ \__, | |____/|_|   \__,_|_| |_|\___/  |_|   |_|\___\___/|_|\___/
-"       |___/
+" Source -> https://vim.fandom.com/wiki/Example_vimrc
+set nocompatible
 
-" Set the map leader to \
-    let mapleader="\\"
+" Open usr plugins configuration
+source ~/.vim/usr/plugin.vim
 
-" PlugInstall to install plugins
-" PlugUpdate to update plugins
-" PlugStatus to Check plugin status
-" PlugClear to clear the unused plugins
-call plug#begin('~/.vim/plugged')
-    Plug 'LukeSmithxyz/vimling'
-    Plug 'tpope/vim-surround'
-    Plug 'xuhdev/vim-latex-live-preview'
-    Plug 'scrooloose/nerdtree'
-    Plug 'easymotion/vim-easymotion'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'neoclide/coc.nvim', {'branch' : 'release'}
-    " Plug 'terryma/vim-multiple-cursors'
-    " Plug 'scrooloose/nerdcommenter'
-    " Plug 'junegunn/goyo.vim'
-    " Plug 'arcticicestudio/nord-vim'
-    " https://github.com/scrooloose/vim-slumlord - To create UML on vim?
-call plug#end()
+if has('filetype')
+    filetype indent plugin on
+endif
 
-
-""" Plugins configuration
-    " Map F1 to preview latex documents
-    autocmd FileType tex map <F1> :LLPStartPreview<CR>
-    map <leader>o : set spell! spelllang=fr<CR>
-    map <leader>e : set spelllang=en<CR>
-    " To change the github nerdTree symbols
-    let g:NERDTreeIndicatorMapCustom = {
-        \ "Modified"  : "✹",
-        \ "Staged"    : "✚",
-        \ "Untracked" : "✭",
-        \ "Renamed"   : "➜",
-        \ "Unmerged"  : "═",
-        \ "Deleted"   : "✖",
-        \ "Dirty"     : "✗",
-        \ "Clean"     : "✔︎",
-        \ 'Ignored'   : '☒',
-        \ "Unknown"   : "?"
-        \ }
-    " Highlight currently open buffer in NERDTree
-    " autocmd BufEnter * call SyncTree()
-
-    """ Coc configuration ''' Search for docker coc extension '''
-        let g:coc_global_extensions = [
-            \ 'coc-word',
-            \ 'coc-docker',
-            \ 'coc-ccls',
-            \ 'coc-css',
-            \ 'coc-java',
-            \ 'coc-git',
-            \ 'coc-html',
-            \ 'coc-texlab',
-            \ 'coc-python',
-            \ 'coc-snippets',
-            \ 'coc-pairs',
-            \ 'coc-tsserver',
-            \ 'coc-eslint',
-            \ 'coc-prettier',
-            \ 'coc-json',
-            \ ]
-         " if hidden is not set, TextEdit might fail.
-         set hidden""
-         " Some servers have issues with backup files, see #649
-         set nobackup
-         set nowritebackup
-         " Better display for messages
-         set cmdheight=2
-         " You will have bad experience for diagnostic messages when its default 4000.
-         set updatetime=300
-         " don't give |ins-completion-menu| messages
-         set shortmess+=c
-         " always show signcolumns
-         set signcolumn=yes
-         " Use tab for trigger completion with characters ahead and navigate.
-         " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-         inoremap <silent><expr> <TAB>
-               \ pumvisible() ? "\<C-n>" :
-               \ <SID>check_back_space() ? "\<TAB>" :
-               \ coc#refresh()
-         inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-         function! s:check_back_space() abort
-           let col = col('.') - 1
-           return !col || getline('.')[col - 1]  =~# '\s'
-         endfunction
-         " Use <"c-space> to trigger completion.
-         inoremap <silent><expr> <c-space> coc#refresh()
-         " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-         " Coc only does snippet and additional edit on confirm.
-         inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-         " Or use `complete_info` if your vim support it, like:
-         " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? \<C-y>" : "\<C-g>u\<CR>"
-         " Use `[g` and `]g` to navigate diagnostics
-         nmap <silent> [g <Plug>(coc-diagnostic-prev)
-         nmap <silent> ]g <Plug>(coc-diagnostic-next)
-         " Remap keys for gotos
-         nmap <silent> gd <Plug>(coc-definition)
-         nmap <silent> gy <Plug>(coc-type-definition)
-         nmap <silent> gi <Plug>(coc-implementation)
-         nmap <silent> gr <Plug>(coc-references)
-         " Use K to show documentation in preview window
-         nnoremap <silent> K :call <SID>show_documentation()<CR>
-         function! s:show_documentation()
-             if (index(['vim', 'help'], &filetype) >= 0)
-                 execute 'h '.expand('<cword>')'
-             else
-                 call CocAction('doHover')
-             endif
-         endfunction
-         " Highlight symbol under cursor on CursorHold
-         autocmd CursorHold * silent call CocActionAsync('highlight')
-          " Remap for rename current word
-          nmap <leader>rn <Plug>(coc-rename)
-          " Remap for format selected region
-          xmap <leader>f <Plug>(coc-format-selected)
-          nmap <leader>f <Plug>(coc-format-selected)
-          xmap <leader>f  <Plug>(coc-format-selected)
-          nmap <leader>f  <Plug>(coc-format-selected)
-          " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-          nmap <silent> <TAB> <Plug>(coc-range-select)
-          xmap <silent> <TAB> <Plug>(coc-range-select)
-          " Use `:Format` to format current buffer
-          command! -nargs=0 Format :call CocAction('format')
-          " Use `:Fold` to fold current buffer
-          command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-          " use `:OR` for organize import of current buffer
-          command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-          " Add status line support, for integration with other plugin, checkout `:h coc-status`
-          set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-          " Using CocList
-          " Show all diagnostics
-          nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-          " Manage extensions
-          nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-          " Show commands
-          nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-          " Find symbol of current document
-          nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-          " Search workspace symbols
-          nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-          " Do default action for next item.
-          nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-          " Do default action for previous item.
-          nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-          " Resume latest coc list
-          nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-          " SetUp CocConfig command to open the configuration file"
-          function! SetupCommandAbbrs(from, to)
-             exec 'cnoreabbrev <expr> '.a:from
-                   \ .' ((getcmdtype() ==# ":" && getcmdline() ==# "'.a:from.'")'
-                   \ .'? ("'.a:to.'") : ("'.a:from.'"))'
-          endfunction
-    """ End Coc configuration
-
-    "Activate Nord Vim as the default color theme
-    "colorscheme nord
-    " Open NerdTree to the current directory when no arguments are specifies
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-    " Close NerdTree when the current file is closed
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-""" End Plugins configuration
-
-
-""" User configuration:
-    filetype plugin on
+if has('syntax')
     syntax on
-    set number                  " Show row numbers
-    set relativenumber          " Show relative row numbers
-    set encoding=utf-8
-    set shiftwidth=4            " Indents  will have a width of 4
-    set tabstop=4               " Sets number fo columns for a TAB
-    set smarttab
-    set smartindent
-    set autoindent
-    set expandtab               " A tab equals 4 Spaces
-    set mouse=a                 " Enable mouse
-    set cursorline              " Highlight the current line.
-    " Enable autocompletion:
-    set wildmode=longest,list,full
-    " Map Q key to execute filetext commands and get the result in return
-    noremap Q !!sh<CR>
-    " Spell-chek set to <leader>o, 'o' for 'orthography':
-    map <leader>o :setlocal spell! spelllang=en_us<CR>
-    " Set $ to visualize de end of the line
-    set list
-    " Splits open at the botton and right, which is non-retarded, unlinke vim defaults
-    set splitbelow splitright
-    " To allow vim to execute system functions
-    set shell=sh
-    " Automatically deletes all trailing whitespaces on save:
-    autocmd BufWritePre * %s/\s\+$//e
-    " Map <leader>nr <leader>r to disable or enable relative number
-    map <leader>nr :set norelativenumber<CR>
-    map <leader>r : set relativenumber<CR>
-    " Remove automatic comments
-    autocmd FileType * setlocal formatoptions-=cro
-    " Map <leader>-n to open NerdTree
-    map <C-n> : NERDTreeToggle<CR>
-    " Map <leader>p and <leader>e to compile a markdown file to pdf and open the pdf file with evince.
-    autocmd FileType md map <leader>p :!pandoc -s -o '%:r'.pdf '%' """ NOT WORKING
-    autocmd FileType md map <leader>ev :!evince '%:r'.pdf """ NOT WORKING
-""" End User configuration
+endif
 
+" Completion configuration
+set completeopt=noinsert,menuone,preview
+set shortmess+=c   " Shut off completion messages
+inoremap <expr> <C-d> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+inoremap <expr> <C-u> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
 
-""" Mapping key
-    " Navigating with guides
-    inoremap !<Enter> <Esc>/<++><Enter>"_c4l
-    vnoremap !<Enter> <Esc>/<++><Enter>"_c4l
-    map !<Enter> <Esc>/<++><Enter>"_c4l
+set hidden
+set path+=**
+set wildmenu
+set showcmd
 
-    " For all files open open and close parenthesis, brackets...
-    inoremap !( ()<++><Esc>4hi
-    inoremap !{ {}<++><Esc>4hi
-    inoremap ![ []<++><Esc>4hi
-    inoremap !< <><++><Esc>4hi
+" search
+set hlsearch
+set ignorecase
+set smartcase
 
-    """ LATEX -  https://www.youtube.com/watch?v=cTBgtN-s2Zw&t=1s
-        autocmd FileType tex inoremap ,fr \begin{frame}<Enter>\frametile{}<Enter><Enter>\end{frame}<Enter><Enter><++><Esc>6kf}i
-        autocmd FileType tex inoremap ,fi \begin{flitch}<Enter><Enter>\end{flithc}<Enter><Enter><++><Esc>3kA
+set autoindent
+set nostartofline
+set relativenumber
+set number
+set ruler
 
-    """ HTML
-        autocmd FileType html inoremap ,p <p><++></p><Esc>0
-        autocmd FileType html inoremap ,body <body><Enter><++><Enter></body><Esc>3k
-        autocmd FileType html inoremap ,div <div><Enter><++><Enter></div><Esc>3k
+set laststatus=2
 
-    """ C
-        autocmd FileType c inoremap !main int<Space>main()<Space>{<Enter><++><Enter>}<Esc>2k0f(a
-        autocmd FileType c inoremap !fun <Space><++>(<++>)<Space>{<Enter><++><Enter>}<Esc>2k0i
-        autocmd FileType c inoremap !if if<Space>()<Space>{<Enter><++><Enter>}<Esc>2k0f(a
-""" End mapping key
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+set spelllang=en,fr,es
+
+colorscheme desert
+set background=dark
+
+set splitbelow
+set splitright
+
+" Netrw config 
+let g:netrw_banner=0
+let g:netrw_liststyle=3
+let g:netrw_browse_split=4
+let g:netrw_preview=1
+let g:netrw_winsize=80
+
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)
+
+execute "digraphs as " . 0x2090
+execute "digraphs es " . 0x2091
+execute "digraphs hs " . 0x2095
+execute "digraphs is " . 0x1D62
+execute "digraphs js " . 0x2C7C
+execute "digraphs ks " . 0x2096
+execute "digraphs ls " . 0x2097
+execute "digraphs ms " . 0x2098
+execute "digraphs ns " . 0x2099
+execute "digraphs os " . 0x2092
+execute "digraphs ps " . 0x209A
+execute "digraphs rs " . 0x1D63
+execute "digraphs ss " . 0x209B
+execute "digraphs ts " . 0x209C
+execute "digraphs us " . 0x1D64
+execute "digraphs vs " . 0x1D65
+execute "digraphs xs " . 0x2093
+
+execute "digraphs aS " . 0x1d43
+execute "digraphs bS " . 0x1d47
+execute "digraphs cS " . 0x1d9c
+execute "digraphs dS " . 0x1d48
+execute "digraphs eS " . 0x1d49
+execute "digraphs fS " . 0x1da0
+execute "digraphs gS " . 0x1d4d
+execute "digraphs hS " . 0x02b0
+execute "digraphs iS " . 0x2071
+execute "digraphs jS " . 0x02b2
+execute "digraphs kS " . 0x1d4f
+execute "digraphs lS " . 0x02e1
+execute "digraphs mS " . 0x1d50
+execute "digraphs nS " . 0x207f
+execute "digraphs oS " . 0x1d52
+execute "digraphs pS " . 0x1d56
+execute "digraphs rS " . 0x02b3
+execute "digraphs sS " . 0x02e2
+execute "digraphs tS " . 0x1d57
+execute "digraphs uS " . 0x1d58
+execute "digraphs vS " . 0x1d5b
+execute "digraphs wS " . 0x02b7
+execute "digraphs xS " . 0x02e3
+execute "digraphs yS " . 0x02b8
+execute "digraphs zS " . 0x1dbb
+
+execute "digraphs AS " . 0x1D2C
+execute "digraphs BS " . 0x1D2E
+execute "digraphs DS " . 0x1D30
+execute "digraphs ES " . 0x1D31
+execute "digraphs GS " . 0x1D33
+execute "digraphs HS " . 0x1D34
+execute "digraphs IS " . 0x1D35
+execute "digraphs JS " . 0x1D36
+execute "digraphs KS " . 0x1D37
+execute "digraphs LS " . 0x1D38
+execute "digraphs MS " . 0x1D39
+execute "digraphs NS " . 0x1D3A
+execute "digraphs OS " . 0x1D3C
+execute "digraphs PS " . 0x1D3E
+execute "digraphs RS " . 0x1D3F
+execute "digraphs TS " . 0x1D40
+execute "digraphs US " . 0x1D41
+execute "digraphs VS " . 0x2C7D
+execute "digraphs WS " . 0x1D42
