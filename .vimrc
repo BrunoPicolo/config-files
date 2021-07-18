@@ -2,7 +2,7 @@
 set nocompatible
 
 " Open usr plugins configuration
-source ~/.vim/usr/plugin.vim
+source ~/.vim/usr/plugins.vim
 
 if has('filetype')
     filetype indent plugin on
