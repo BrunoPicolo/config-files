@@ -1,0 +1,17 @@
+[user]
+  name = Bruno Picolo
+  email = bruno.picolo@edataconsulting.de
+[credential "https://lht.app.lufthansa.com"]
+	provider = generic
+[core]
+  editor = vim
+  autocrlf = true
+  longpaths = true
+[alias]
+  lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[diff]
+  tool = 'C:/Program Files/Neovim/bin/nvim.exe'
+[difftool]
+  prompt = false
+[credential]
+  helper = store

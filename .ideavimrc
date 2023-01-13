@@ -1,0 +1,76 @@
+"" Source your .vimrc
+"source ~/.vimrc
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+" Do incremental searching.
+set incsearch
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+"map <leader>d <Action>(Debug)
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
+
+
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+" Set numbers
+set number
+set relativenumber
+
+" Turn off bell
+set visualbell
+set noerrorbells
+set belloff=all
+
+" Activate commentary plugin
+set commentary
+
+" MAPPINGS
+"" Idea mappings
+vmap <leader>lh <action>(LocalHistory.ShowSelectionHistory)
+nmap <leader>lh <action>(LocalHistory.ShowHistory)
+nmap <leader>mr <action>(MoveTabRight)
+" This applies prettier on webstorm
+nmap <leader>r <action>(ReformatCode)
+nmap <leader>o <action>(OptimizeImports)
+nmap <leader>G <action>(Generate)
+nmap <leader>bc <action>(GotoClass)
+nmap <leader>bf <action>(GotoFile)
+nmap <leader>bs <action>(GotoSymbol)
+nmap <leader>ws <action>(SplitHorizontally)
+nmap <leader>wv <action>(SplitVertically)
+nmap <leader>wq <action>(Unsplit)
+nmap <leader>wQ <action>(UnsplitAll)
+nmap <leader>R <action>(Run)
+nmap <leader>Rd <action>(Debug)
+nmap <leader>n <action>(NewElement)
+nmap <leader>s <action>(SelectIn)
+nmap <leader>h <action>(HideSideWindows)
+nmap gi <action>(GotoImplementation)
+
+"" Git mappings
+nmap <leader>gc <action>(Vcs.Show.Local.Changes)
+nmap <leader>gh <action>(Vcs.ShowTabbedFileHistory)
+vmap <leader>gh <action>(Vcs.ShowHistoryForBlock)
+nmap <leader>gm <action>(Vcs.ShowMessageHistory)
+
+" Greatest remap EVER!!
+" Let me explain, this remap while in visual mode
+" will delete what is currently highlighted and replace it
+" with what is in the register BUT it will YANK (delete) it
+" to a VOID register. Meaning I still have what I originally had
+" when I pasted. I don't loose the previous thing I YANKED!
+vnoremap <leader>p "_dP
